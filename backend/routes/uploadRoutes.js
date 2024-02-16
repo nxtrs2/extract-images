@@ -71,7 +71,7 @@ router.post("/upload", upload.single("file"), (req, res) => {
     console.log("Successfully deleted uploaded file:", filePath);
   });
 
-  res.redirect("/images");
+  res.json({ success: true, message: "File uploaded successfully" });
 });
 
 module.exports = router;
