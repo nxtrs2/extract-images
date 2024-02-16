@@ -10,18 +10,20 @@ const HomePage = () => {
 
   const onDrop = useCallback(
     (acceptedFiles) => {
-      Promise.all(acceptedFiles.map((file) => uploadFile(file)))
-        .then((response) => {
-          console.log(response.data.message);
-          navigate("/images"); // Navigate after all files are uploaded
-        })
-        .catch((error) => {
-          console.error("Error uploading files:", error);
-          // Handle the error
-        });
+      acceptedFiles.forEach((file) => {
+        uploadFile(file)
+          .then((response) => {
+            console.log("File uploaded successfully", response);
+            navigate(`/images?directory=${response.data.directory}`);
+          })
+          .catch((error) => {
+            console.error("Error uploading file:", error);
+            // Handle the error, such as updating state to show an error message
+          });
+      });
     },
     [navigate]
-  );
+  ); // Include navigate in the dependency array
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
