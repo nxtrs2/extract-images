@@ -36,11 +36,13 @@ const ImageGallery = () => {
           {images.map((imageUrl, index) => (
             <Col xs={6} md={4} lg={3} className="mb-4" key={index}>
               <img
-                src={imageUrl}
+                src={process.env.REACT_APP_API_URL + imageUrl}
                 alt={`Uploaded Img ${index}`}
                 className="img-thumbnail"
                 style={{ cursor: "pointer", width: "100%", height: "auto" }}
-                onClick={() => handleShow(imageUrl)}
+                onClick={() =>
+                  handleShow(process.env.REACT_APP_API_URL + imageUrl)
+                }
               />
             </Col>
           ))}

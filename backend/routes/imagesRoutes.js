@@ -33,7 +33,7 @@ router.get("/list-images", (req, res) => {
     });
 
     const imageURLs = filteredFiles.map(
-      (file) => `http://localhost:3030/images/${directory}/${file}`
+      (file) => `/images/${directory}/${file}`
     );
     res.json(imageURLs);
   });
