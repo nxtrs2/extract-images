@@ -41,18 +41,22 @@ const HomePage = () => {
     <Container>
       <Row className="mt-5">
         <Col md={{ span: 6, offset: 3 }} className="text-center">
-          <h1>
-            Quickly Extract images from any Excel, Word and Powerpoint files!
-          </h1>
+          <h1>extractimages.io</h1>
+          <h4>Quickly Extract Images from Excel, Word and Powerpoint files</h4>
 
           <div {...getRootProps()} className="dropzone">
             <input {...getInputProps()} />
             {isDragActive ? (
               <p>Drop the files here ...</p>
             ) : (
-              <p>Drag 'n' drop some files here, or click to select files</p>
+              <p>Drag 'n' drop OR click to select files</p>
             )}
           </div>
+        </Col>
+      </Row>
+      <Row>
+        <Col className="text-center">
+          <span className="small">A Project by S73</span>
         </Col>
       </Row>
     </Container>
