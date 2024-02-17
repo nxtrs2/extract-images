@@ -39,7 +39,9 @@ const HomePage = () => {
     <Container>
       <Row className="mt-5">
         <Col md={{ span: 6, offset: 3 }} className="text-center">
-          <h1>Quick! Extract images from your Excel and Word files!</h1>
+          <h1>
+            Quickly Extract images from any Excel, Word and Powerpoint files!
+          </h1>
 
           <div {...getRootProps()} className="dropzone">
             <input {...getInputProps()} />

@@ -62,6 +62,18 @@ router.post("/upload", upload.single("file"), (req, res) => {
         console.error("Error saving image:", error);
       }
     }
+    if (
+      entryName.startsWith("ppt/media/") &&
+      entryName.match(/\.(jpg|jpeg|png|gif)$/)
+    ) {
+      const targetPath = path.join(imagesDir, uniqueImageName);
+      try {
+        fs.writeFileSync(targetPath, entry.getData());
+        images.addImage(uniqueImageName);
+      } catch (error) {
+        console.error("Error saving image:", error);
+      }
+    }
   });
 
   fs.unlink(filePath, (err) => {
