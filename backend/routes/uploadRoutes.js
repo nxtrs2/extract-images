@@ -19,7 +19,10 @@ const storage = multer.diskStorage({
   },
 });
 
-const upload = multer({ storage: storage });
+const upload = multer({
+  storage: storage,
+  limits: { fileSize: 10 * 1024 * 1024 },
+});
 
 router.post("/upload", upload.single("file"), (req, res) => {
   const directory = uuidv4(); // Move directory generation inside the route handler
