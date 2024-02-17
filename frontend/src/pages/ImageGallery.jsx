@@ -17,7 +17,9 @@ const ImageGallery = () => {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:3030/list-images?directory=${directory}`)
+      .get(
+        `${process.env.REACT_APP_API_URL}/list-images?directory=${directory}`
+      )
       .then((response) => {
         setImages(response.data);
       })
@@ -45,7 +47,7 @@ const ImageGallery = () => {
         </Row>
         <Row>
           <Col>
-            <a href={`http://localhost:3030/download/${directory}`}>
+            <a href={`${process.env.REACT_APP_API_URL}/download/${directory}`}>
               Download Images
             </a>
           </Col>
