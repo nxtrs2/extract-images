@@ -56,7 +56,7 @@ const HomePage = () => {
       </Row>
       <Row>
         <Col className="text-center">
-          <span className="small">A Project by S73</span>
+          <span className="small">A S73 Project</span>
         </Col>
       </Row>
     </Container>
