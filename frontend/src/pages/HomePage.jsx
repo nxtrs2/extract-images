@@ -66,7 +66,7 @@ const HomePage = () => {
       </Row>
       <Row>
         <Col className="text-center">
-          <span className="small">A S73 Project</span>
+          <span className="small">V 0.2 B</span>
         </Col>
       </Row>
     </Container>

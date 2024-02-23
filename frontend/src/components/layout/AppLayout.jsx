@@ -7,7 +7,6 @@ const AppLayout = () => {
     <div>
       <Navbar />
       <Outlet />
-      {/* Add your content here */}
     </div>
   );
 };

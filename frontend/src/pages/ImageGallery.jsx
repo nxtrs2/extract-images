@@ -7,8 +7,6 @@ const ImageGallery = () => {
   const [images, setImages] = useState([]);
   const [show, setShow] = useState(false);
   const [selectedImage, setSelectedImage] = useState("");
-  //onst urlParams = new URLSearchParams(window.location.search);
-  //const directory = urlParams.get("directory");
   const location = useLocation();
   const directories = location.state?.directories;
 
@@ -17,17 +15,6 @@ const ImageGallery = () => {
     setSelectedImage(imageUrl);
     setShow(true);
   };
-
-  //   useEffect(() => {
-  //     axios
-  //       .get(
-  //         `${process.env.REACT_APP_API_URL}/list-images?directory=${directory}`
-  //       )
-  //       .then((response) => {
-  //         setImages(response.data);
-  //       })
-  //       .catch((error) => console.error("Error fetching images:", error));
-  //   }, []);
 
   useEffect(() => {
     if (directories && directories.length > 0) {
@@ -41,16 +28,16 @@ const ImageGallery = () => {
               .then((response) => response.data)
               .catch((error) => {
                 console.error("Error fetching images:", error);
-                return []; // Return an empty array in case of error
+                return [];
               })
           )
         );
-        setImages(allImages.flat()); // Flatten the array of arrays
+        setImages(allImages.flat());
       };
 
       fetchImages();
     }
-  }, [directories]); // Depend on directories
+  }, [directories]);
 
   return (
     <>

@@ -1,4 +1,4 @@
-// Initialize the shared array
+/* THIS IS NOT USED - DELETE LATER */
 const savedImages = [];
 
 // Export functions to interact with the array

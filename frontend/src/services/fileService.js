@@ -1,3 +1,8 @@
+/**
+ * Uploads a file to the server.
+ * @param {File} file - The file to upload.
+ * @returns {Promise} - A promise that resolves with the server response.
+ */
 import axios from "axios";
 
 const uploadFile = (file) => {

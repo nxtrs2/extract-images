@@ -1,3 +1,4 @@
+/* A PLACEHOLDER ONLY */
 import React from "react";
 
 const AboutPage = () => {

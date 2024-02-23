@@ -1,3 +1,8 @@
+/**
+ * Express router for handling file uploads.
+ * @module uploadRoutes
+ */
+
 const express = require("express");
 const router = express.Router();
 const multer = require("multer");
@@ -7,6 +12,12 @@ const path = require("path");
 const { v4: uuidv4 } = require("uuid");
 const images = require("../utils/sharedImages");
 
+/**
+ * Multer disk storage configuration.
+ * @type {object}
+ * @property {function} destination - Function to determine the destination directory for uploaded files.
+ * @property {function} filename - Function to determine the filename for uploaded files.
+ */
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, "uploads/");
@@ -19,13 +30,29 @@ const storage = multer.diskStorage({
   },
 });
 
+/**
+ * Multer configuration for file upload.
+ * @type {object}
+ * @property {object} storage - Multer disk storage configuration.
+ * @property {object} limits - Limits for the uploaded file.
+ */
 const upload = multer({
   storage: storage,
   limits: { fileSize: 10 * 1024 * 1024 },
 });
 
+/**
+ * Route for handling file upload.
+ * @name POST /upload
+ * @function
+ * @memberof module:uploadRoutes
+ * @param {string} path - Express route path.
+ * @param {function} middleware - Multer middleware for file upload.
+ * @param {function} callback - Express route callback function.
+ */
 router.post("/upload", upload.single("file"), (req, res) => {
-  const directory = uuidv4(); // Move directory generation inside the route handler
+  const directory = uuidv4();
+  // This is a temporary solution. The images should be stored in some other place, not in the backend.
   const imagesDir = path.join(__dirname, "../images", directory);
 
   if (!fs.existsSync(imagesDir)) {
@@ -44,7 +71,7 @@ router.post("/upload", upload.single("file"), (req, res) => {
       "word/media/",
       "xl/media/",
       "ppt/media/",
-      "Data/" /* For Apple Pages */,
+      "Data/" /* For Apple Pages - will have to verify this for Keynote */,
     ];
     const isValidDirectory = validDirectories.some((dir) =>
       entryName.startsWith(dir)
