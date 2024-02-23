@@ -34,41 +34,24 @@ router.post("/upload", upload.single("file"), (req, res) => {
 
   const filePath = req.file.path;
   const zip = new AdmZip(filePath);
-  const zipEntries = zip.getEntries(); // an array of ZipEntry records
+  const zipEntries = zip.getEntries();
 
   zipEntries.forEach((entry) => {
     const entryName = entry.entryName;
-    const uniqueImageName = uuidv4() + path.extname(entryName); // Add file extension to the unique name
+    const uniqueImageName = uuidv4() + path.extname(entryName);
 
-    if (
-      entryName.startsWith("word/media/") &&
-      entryName.match(/\.(jpg|jpeg|png|gif)$/)
-    ) {
-      const targetPath = path.join(imagesDir, uniqueImageName);
-      try {
-        fs.writeFileSync(targetPath, entry.getData());
-        images.addImage(uniqueImageName);
-      } catch (error) {
-        console.error("Error saving image:", error);
-      }
-    }
+    const validDirectories = [
+      "word/media/",
+      "xl/media/",
+      "ppt/media/",
+      "Data/" /* For Apple Pages */,
+    ];
+    const isValidDirectory = validDirectories.some((dir) =>
+      entryName.startsWith(dir)
+    );
+    const isValidFile = entryName.match(/\.(jpg|jpeg|png|gif)$/);
 
-    if (
-      entryName.startsWith("xl/media/") &&
-      entryName.match(/\.(jpg|jpeg|png|gif)$/)
-    ) {
-      const targetPath = path.join(imagesDir, uniqueImageName);
-      try {
-        fs.writeFileSync(targetPath, entry.getData());
-        images.addImage(uniqueImageName);
-      } catch (error) {
-        console.error("Error saving image:", error);
-      }
-    }
-    if (
-      entryName.startsWith("ppt/media/") &&
-      entryName.match(/\.(jpg|jpeg|png|gif)$/)
-    ) {
+    if (isValidDirectory && isValidFile) {
       const targetPath = path.join(imagesDir, uniqueImageName);
       try {
         fs.writeFileSync(targetPath, entry.getData());

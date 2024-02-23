@@ -35,6 +35,9 @@ const HomePage = () => {
         [".docx"],
       "application/vnd.openxmlformats-officedocument.presentationml.presentation":
         [".pptx"],
+      "application/x-iwork-pages-sffpages": [".pages"],
+      "application/x-iwork-numbers-sffnumbers": [".numbers"],
+      "application/x-iwork-keynote-sffkey": [".key"],
     },
   });
   return (
