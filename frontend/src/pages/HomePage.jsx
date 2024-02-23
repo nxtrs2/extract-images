@@ -25,7 +25,6 @@ const HomePage = () => {
         })
         .catch((error) => {
           console.error("Error uploading files:", error);
-          // Handle the error appropriately
         })
         .finally(() => {
           setTimeout(
