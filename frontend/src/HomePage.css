@@ -1,6 +1,6 @@
 .dropzone {
-  border: 1px dotted #007bff;
-  border-radius: 5px;
+  border: 1px double #007bff;
+  border-radius: 35px;
   padding: 20px;
   text-align: center;
   cursor: pointer;
@@ -10,5 +10,5 @@
 }
 
 .dropzone:hover {
-  background-color: #f8f9fa;
+  background-color: #c4e2ff;
 }

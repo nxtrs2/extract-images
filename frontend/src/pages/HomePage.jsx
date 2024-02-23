@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDropzone } from "react-dropzone";
 import { uploadFile } from "../services/fileService";
@@ -7,23 +7,35 @@ import "../HomePage.css";
 
 const HomePage = () => {
   const navigate = useNavigate();
+  const [message, setMessage] = useState(
+    "Drag 'n' drop OR click to select files"
+  );
 
   const onDrop = useCallback(
     (acceptedFiles) => {
-      acceptedFiles.forEach((file) => {
-        uploadFile(file)
-          .then((response) => {
-            console.log("File uploaded successfully", response);
-            navigate(`/images?directory=${response.data.directory}`);
-          })
-          .catch((error) => {
-            console.error("Error uploading file:", error);
-            // Handle the error, such as updating state to show an error message
-          });
-      });
+      setMessage("Processing files...");
+      const uploadPromises = acceptedFiles.map((file) => uploadFile(file));
+
+      Promise.all(uploadPromises)
+        .then((responses) => {
+          const directories = responses.map(
+            (response) => response.data.directory
+          );
+          navigate(`/images`, { state: { directories } });
+        })
+        .catch((error) => {
+          console.error("Error uploading files:", error);
+          // Handle the error appropriately
+        })
+        .finally(() => {
+          setTimeout(
+            () => setMessage("Drag 'n' drop OR click to select files"),
+            5000
+          );
+        });
     },
     [navigate]
-  ); // Include navigate in the dependency array
+  );
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
@@ -49,11 +61,7 @@ const HomePage = () => {
 
           <div {...getRootProps()} className="dropzone">
             <input {...getInputProps()} />
-            {isDragActive ? (
-              <p>Drop the files here ...</p>
-            ) : (
-              <p>Drag 'n' drop OR click to select files</p>
-            )}
+            {isDragActive ? <p>Drop the files here ...</p> : <p>{message}</p>}
           </div>
         </Col>
       </Row>

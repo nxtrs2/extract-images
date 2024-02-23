@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 import axios from "axios";
 import { Modal, Button, Container, Row, Col } from "react-bootstrap";
 
@@ -6,8 +7,10 @@ const ImageGallery = () => {
   const [images, setImages] = useState([]);
   const [show, setShow] = useState(false);
   const [selectedImage, setSelectedImage] = useState("");
-  const urlParams = new URLSearchParams(window.location.search);
-  const directory = urlParams.get("directory");
+  //onst urlParams = new URLSearchParams(window.location.search);
+  //const directory = urlParams.get("directory");
+  const location = useLocation();
+  const directories = location.state?.directories;
 
   const handleClose = () => setShow(false);
   const handleShow = (imageUrl) => {
@@ -15,16 +18,39 @@ const ImageGallery = () => {
     setShow(true);
   };
 
+  //   useEffect(() => {
+  //     axios
+  //       .get(
+  //         `${process.env.REACT_APP_API_URL}/list-images?directory=${directory}`
+  //       )
+  //       .then((response) => {
+  //         setImages(response.data);
+  //       })
+  //       .catch((error) => console.error("Error fetching images:", error));
+  //   }, []);
+
   useEffect(() => {
-    axios
-      .get(
-        `${process.env.REACT_APP_API_URL}/list-images?directory=${directory}`
-      )
-      .then((response) => {
-        setImages(response.data);
-      })
-      .catch((error) => console.error("Error fetching images:", error));
-  }, []);
+    if (directories && directories.length > 0) {
+      const fetchImages = async () => {
+        const allImages = await Promise.all(
+          directories.map((dir) =>
+            axios
+              .get(
+                `${process.env.REACT_APP_API_URL}/list-images?directory=${dir}`
+              )
+              .then((response) => response.data)
+              .catch((error) => {
+                console.error("Error fetching images:", error);
+                return []; // Return an empty array in case of error
+              })
+          )
+        );
+        setImages(allImages.flat()); // Flatten the array of arrays
+      };
+
+      fetchImages();
+    }
+  }, [directories]); // Depend on directories
 
   return (
     <>
@@ -49,9 +75,17 @@ const ImageGallery = () => {
         </Row>
         <Row>
           <Col>
-            <a href={`${process.env.REACT_APP_API_URL}/download/${directory}`}>
-              Download Images
-            </a>
+            {directories.map((directory, index) => (
+              <>
+                <a
+                  key={index}
+                  href={`${process.env.REACT_APP_API_URL}/download/${directory}`}
+                >
+                  Download Images
+                </a>
+                <br />
+              </>
+            ))}
           </Col>
         </Row>
         <Row>
