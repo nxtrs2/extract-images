@@ -28,7 +28,7 @@ Office Open XML files are zipped and when unzipped contain a structure inside wh
 Install the dependencies and devDependencies and start the server.
 
 ```sh
-git clone (https://github.com/nxtrs2/extract-images.git) .
+git clone https://github.com/nxtrs2/extract-images.git .
 cd backend
 npm i
 node app.js
