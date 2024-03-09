@@ -53,6 +53,7 @@ const ImageGallery = () => {
                 alt={`Uploaded Img ${index}`}
                 className="img-thumbnail"
                 style={{ cursor: "pointer", width: "100%", height: "auto" }}
+                key={index}
                 onClick={() =>
                   handleShow(process.env.REACT_APP_API_URL + imageUrl)
                 }
